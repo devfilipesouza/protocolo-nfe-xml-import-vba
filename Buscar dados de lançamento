@@ -1,0 +1,70 @@
+Sub BuscarRecebimentos()
+
+    Dim wbPrincipal As Workbook
+    Dim wsPrincipal As Worksheet
+    Dim wbRecebimento As Workbook
+    Dim wsRecebimento As Worksheet
+    Dim caminhoArquivo As String
+    Dim ultimaLinhaPrincipal As Long
+    Dim ultimaLinhaRecebimento As Long
+    Dim i As Long, j As Long
+    Dim numeroNota As String
+    Dim numeroRecebimento As String
+    Dim encontrado As Boolean
+
+    ' Caminho do arquivo RECEBIMENTO.XLS
+    caminhoArquivo = "\\SRV-RELUZ\Users\ACESSO INTERNO\DOCUMENTOS FISCAIS\XML ENTRADA\!Planilha de recebimento\RECEBIMENTO.XLS"
+
+    ' Referência da planilha atual
+    Set wbPrincipal = ThisWorkbook
+    Set wsPrincipal = wbPrincipal.Sheets("PRNF")
+
+    ' Abrir o arquivo RECEBIMENTO.XLS
+    On Error Resume Next
+    Set wbRecebimento = Workbooks.Open(caminhoArquivo, ReadOnly:=True)
+    If wbRecebimento Is Nothing Then
+        MsgBox "Erro ao abrir o arquivo RECEBIMENTO.XLS", vbCritical
+        Exit Sub
+    End If
+    On Error GoTo 0
+
+    ' Seleciona a aba correta dentro da RECEBIMENTO.XLS
+    Set wsRecebimento = wbRecebimento.Sheets("Recebimento de Produtos")
+    ultimaLinhaRecebimento = wsRecebimento.Cells(wsRecebimento.Rows.Count, "F").End(xlUp).Row
+
+    ' Última linha da planilha principal
+    ultimaLinhaPrincipal = wsPrincipal.Cells(wsPrincipal.Rows.Count, "G").End(xlUp).Row
+
+    ' Loop para cada linha da coluna G
+    For i = 14 To ultimaLinhaPrincipal
+
+        numeroNota = Trim(wsPrincipal.Cells(i, "G").Value)
+        encontrado = False
+
+        If numeroNota <> "" Then
+            ' Procura na aba Recebimento
+            For j = 1 To ultimaLinhaRecebimento
+                If Trim(wsRecebimento.Cells(j, "F").Value) = numeroNota Then
+                    numeroRecebimento = wsRecebimento.Cells(j, "G").Value
+                    wsPrincipal.Cells(i, "H").Value = numeroRecebimento
+                    encontrado = True
+                    Exit For
+                End If
+            Next j
+
+            If Not encontrado Then
+                wsPrincipal.Cells(i, "H").Value = "NÃO ENCONTRADO"
+            End If
+        Else
+            wsPrincipal.Cells(i, "H").Value = ""
+        End If
+
+    Next i
+
+    ' Fecha o arquivo sem salvar alterações
+    wbRecebimento.Close SaveChanges:=False
+
+    MsgBox "Busca finalizada com sucesso!", vbInformation
+
+End Sub
+
