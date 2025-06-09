@@ -1,6 +1,6 @@
-# 📥 Protocolo NFe - Importação de Dados XML via VBA
+# 📥 Protocolo NFe - Importação de Dados XML via VBA com integração ERP
 
-Este projeto em VBA automatiza a leitura de arquivos XML de Notas Fiscais Eletrônicas (NF-e) e importa dados essenciais diretamente para uma planilha do Excel. Ele foi desenvolvido para facilitar a conferência e registro de informações fiscais, otimizando o processo manual de lançamento.
+Este projeto em VBA automatiza a leitura de arquivos XML de Notas Fiscais Eletrônicas (NF-e) e importa dados essenciais diretamente para uma planilha do Excel. Ele foi desenvolvido para facilitar a conferência e registro de informações fiscais, otimizando o processo lançamento de notas fiscais.
 
 ## 🚀 Funcionalidades
 
@@ -10,6 +10,7 @@ Este projeto em VBA automatiza a leitura de arquivos XML de Notas Fiscais Eletr�
   - CNPJ do emitente
   - Número da nota fiscal
 - ✅ Validação do XML e retorno de status direto na planilha
+- 🤝 Integraçao com sistema ERP para busca de índice lançamento
 - 💡 Aviso ao final da importação com status individual por linha
 
 ## 📄 Estrutura da Planilha
